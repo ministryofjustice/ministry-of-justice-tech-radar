@@ -193,96 +193,77 @@ dig tech-radar.service.justice.gov.uk  # Should return CNAME
 
 For deployment support, contact Developer Experience Team (#developer-experience-team on Slack).
 
-<<<<<<< feature/github-pages-deployment
-=======
 If your repository is private with no GitHub Advanced Security license, remove the `.github/workflows/dependency-review.yml` file.
 
-## DevSecOps Integration
-
-This repository implements comprehensive DevSecOps practices using Ministry of Justice standards:
-
-### Pre-Commit Hooks
-
-Pre-commit hooks automatically run security and quality checks before each commit:
-
-1. **Install pre-commit** (choose one):
-   ```bash
-   # Using prek (recommended)
-   pip install prek
-   
-   # Or using pre-commit
-   pip install pre-commit
-   ```
-
-2. **Activate hooks**:
-   ```bash
-   prek install
-   # Or: pre-commit install
-   ```
-
-3. **Test hooks** (optional):
-   ```bash
-   prek run --all-files
-   # Or: pre-commit run --all-files
-   ```
-
-**Configured Hooks:**
-- 🔐 **Secret Scanner** - Detects hardcoded secrets using GitLeaks
-- ✂️ **Trailing Whitespace** - Removes trailing whitespace
-- ✅ **YAML/JSON Validation** - Validates syntax
-- 📦 **Large File Check** - Prevents files >500KB
-- 🔑 **Private Key Detection** - Detects private keys
-
-### Conventional Commits
-
-Commit messages must follow the [Conventional Commits](https://www.conventionalcommits.org/) specification:
-
-**Format:** `<type>(<scope>): <subject>`
-
-**Types:**
-- `feat`: New feature
-- `fix`: Bug fix
-- `docs`: Documentation changes
-- `chore`: Maintenance tasks
-- `ci`: CI/CD changes
-- `refactor`: Code refactoring
-- `test`: Test changes
-
-**Examples:**
 ```bash
-git commit -m "feat(radar): add AWS Lambda technology entry"
-git commit -m "fix(config): correct quadrant colors"
-git commit -m "docs(readme): update installation guide"
-git commit -m "chore(deps): bump npm dependencies"
+npm run build
 ```
 
-### GitHub Actions Workflows
+This creates an optimized build with strict validation in the `public/` directory.
 
-Automated security and quality workflows run on every push and pull request:
+## Project Structure
 
-- **🔍 SCA (Software Composition Analysis)** - Multi-tool security scanning
-  - Dependency Review
-  - OWASP Dependency Check
-  - Secret Scanning (GitLeaks + TruffleHog)
-  - CodeQL SAST Analysis
-  - SBOM Generation
-  - OpenSSF Scorecard
+```
+.
+├── radar/              # Technology entries organized by release date
+│   └── YYYY-MM-DD/    # Release directories containing markdown files
+├── public/            # Built static files (generated)
+├── config.json        # Radar configuration (quadrants, colors, toggles)
+├── about.md          # Introduction and usage documentation
+├── custom.css        # Custom styling
+└── package.json      # Project dependencies and scripts
+```
 
-- **✏️ Lint Check** - Code quality validation
-  - JSON validation
-  - YAML validation
-  - Build verification
+## Contributing
 
-### Security Configuration
+### Adding or Updating Technology Entries
 
-- `.gitleaks.toml` - GitLeaks configuration for secret detection
-- `.gitleaksignore` - False positive exclusions
-- `.github/dependency-review-config.yml` - Dependency security policies
-- `commitlint.config.js` - Commit message validation rules
+1. Create a new branch:
+   ```bash
+   git checkout -b feature/add-technology-name
+   ```
 
-### References
+2. Navigate to the appropriate release directory in `radar/` or create a new one following the `YYYY-MM-DD` format.
+
+3. Create or update the technology's markdown file with the following structure:
+   ```markdown
+   ---
+   title: "Technology Name"
+   ring: adopt|trial|assess|hold
+   quadrant: languages-and-frameworks|methods-and-patterns|platforms-and-operations|tools
+   tags: [tag1, tag2]
+   ---
+
+   ## Description
+   Brief description of the technology...
+
+   ## Rationale
+   Why we recommend this technology...
+   ```
+
+4. Commit your changes and create a pull request.
+
+### Guidelines
+
+- Keep descriptions concise and focused on MoJ context
+- Include clear rationale for the recommendation
+- Use appropriate tags for discoverability
+- Follow existing naming conventions
+
+## Configuration
+
+The radar's appearance and behavior can be customized in [config.json](config.json):
+
+- Quadrant definitions and colors
+- UI toggles (search, chart, filters)
+- Branding (logo, colors)
+- Base paths and URLs
+
+## Built With
+
+- [AOE Technology Radar](https://github.com/AOEpeople/aoe_technology_radar) - The underlying framework
 
 - [MoJ DevSecOps Hooks](https://github.com/ministryofjustice/devsecops-hooks)
 - [MoJ DevSecOps Actions](https://github.com/ministryofjustice/devsecops-actions)
 - [Conventional Commits](https://www.conventionalcommits.org/)
->>>>>>> main
+
