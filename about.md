@@ -78,8 +78,7 @@ Any caveats, limitations, or things to know
 The Technology Radar is a living document. If you have questions, suggestions, or feedback:
 
 - Open an issue in this repository
-- Discuss in MoJ technical community channels #devx-nudge-group
-- Contact the Developer Experience Team
+- Contact the Developer Experience Team [#devx-nudge-group](https://moj.enterprise.slack.com/archives/C0AJBK3P5A8)
 
 ## Related Resources
 
