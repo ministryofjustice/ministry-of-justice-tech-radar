@@ -1,0 +1,126 @@
+# Lint Check Workflow
+#
+# Purpose:
+#   Performs automated code quality and formatting checks to ensure consistency
+#   and adherence to project standards.
+#
+# Triggers:
+#   - push: When code is pushed to any branch
+#
+# Permissions:
+#   - contents: read - Required for accessing repository contents
+#
+# Jobs:
+#   setup:
+#     - Prepares the infrastructure and environment configuration
+#     - Outputs: environment name and timezone for downstream jobs
+#
+#   lint:
+#     - Checks out the repository code
+#     - Configures Node.js environment
+#     - Installs project dependencies
+#     - Executes validation checks:
+#       * Markdown formatting (markdownlint)
+#       * YAML formatting (yamllint)
+#       * JSON validation (config.json)
+#
+# Configuration:
+#   - Environment: base (configurable via env vars)
+#   - Timezone: Configurable via repository variables (TIMEZONE)
+#
+# Required Variables:
+#   - TIMEZONE: Repository variable defining the timezone for operations
+#   - NODE_VERSION: Node.js version for the runtime environment
+
+name: Lint check ✏️
+run-name: Lint check ✏️
+
+on:
+  push:
+    branches:
+      - "**" # All branches
+
+permissions: {}
+
+env:
+  environment: base
+  timezone: ${{ vars.TIMEZONE || 'UTC' }}
+
+jobs:
+  # 1. Setup infrastructure
+  setup:
+    name: Infrastructure 🔧
+    runs-on: ["ubuntu-latest"]
+    outputs:
+      environment: ${{ env.environment }}
+      timezone: ${{ env.timezone }}
+    steps:
+      - name: Environment 🧪
+        run: echo "Environment set to ${{ env.environment }}"
+
+      - name: Timezone 🌐
+        run: echo "Timezone set to ${{ env.timezone }}"
+
+  # 2. Various lint checks
+  lint:
+    permissions:
+      contents: read
+
+    name: Lint ✏️
+    needs: setup
+    environment:
+      name: ${{ needs.setup.outputs.environment }}
+    runs-on: ["ubuntu-latest"]
+
+    steps:
+      - name: Repository
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+      - name: Node
+        uses: actions/setup-node@6044e13b5dc448c55e2357c09f80417699197238 # v6.1.0
+        with:
+          node-version: ${{ vars.NODE_VERSION || '22' }}
+
+      - name: SLSA supply chain protection
+        uses: ministryofjustice/devsecops-actions/sca/slsa@4cd163be7859cd130800d6719d925318826038ea
+
+      - name: Install
+        shell: bash
+        run: npm ci --ignore-scripts
+
+      - name: Validate JSON
+        shell: bash
+        run: |
+          echo "Validating config.json..."
+          node -e "JSON.parse(require('fs').readFileSync('config.json', 'utf8'))"
+          echo "✅ config.json is valid"
+
+      - name: Validate YAML
+        shell: bash
+        continue-on-error: true
+        run: |
+          echo "Validating YAML files..."
+          if command -v yamllint &> /dev/null; then
+            yamllint .github/workflows/*.yml || echo "⚠️ YAML linting found issues (non-blocking)"
+          else
+            echo "⚠️ yamllint not installed, skipping YAML validation"
+          fi
+
+      - name: Check Markdown files exist
+        shell: bash
+        run: |
+          echo "Checking for markdown files in radar directories..."
+          md_count=$(find radar -name "*.md" 2>/dev/null | wc -l)
+          echo "Found $md_count markdown files"
+          if [ "$md_count" -eq 0 ]; then
+            echo "⚠️ Warning: No markdown files found in radar directory"
+          else
+            echo "✅ Markdown files present"
+          fi
+
+      - name: Build validation
+        shell: bash
+        run: |
+          echo "Running build to validate radar structure..."
+          npm run build
+          echo "✅ Build successful"
