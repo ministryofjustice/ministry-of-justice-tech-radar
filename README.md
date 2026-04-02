@@ -68,3 +68,92 @@ Adapt the dependabot.yml file to match your project's [dependency manager](https
 ### Dependency Review
 
 If your repository is private with no GitHub Advanced Security license, remove the `.github/workflows/dependency-review.yml` file.
+
+## DevSecOps Integration
+
+This repository implements comprehensive DevSecOps practices using Ministry of Justice standards:
+
+### Pre-Commit Hooks
+
+Pre-commit hooks automatically run security and quality checks before each commit:
+
+1. **Install pre-commit** (choose one):
+   ```bash
+   # Using prek (recommended)
+   pip install prek
+   
+   # Or using pre-commit
+   pip install pre-commit
+   ```
+
+2. **Activate hooks**:
+   ```bash
+   prek install
+   # Or: pre-commit install
+   ```
+
+3. **Test hooks** (optional):
+   ```bash
+   prek run --all-files
+   # Or: pre-commit run --all-files
+   ```
+
+**Configured Hooks:**
+- 🔐 **Secret Scanner** - Detects hardcoded secrets using GitLeaks
+- ✂️ **Trailing Whitespace** - Removes trailing whitespace
+- ✅ **YAML/JSON Validation** - Validates syntax
+- 📦 **Large File Check** - Prevents files >500KB
+- 🔑 **Private Key Detection** - Detects private keys
+
+### Conventional Commits
+
+Commit messages must follow the [Conventional Commits](https://www.conventionalcommits.org/) specification:
+
+**Format:** `<type>(<scope>): <subject>`
+
+**Types:**
+- `feat`: New feature
+- `fix`: Bug fix
+- `docs`: Documentation changes
+- `chore`: Maintenance tasks
+- `ci`: CI/CD changes
+- `refactor`: Code refactoring
+- `test`: Test changes
+
+**Examples:**
+```bash
+git commit -m "feat(radar): add AWS Lambda technology entry"
+git commit -m "fix(config): correct quadrant colors"
+git commit -m "docs(readme): update installation guide"
+git commit -m "chore(deps): bump npm dependencies"
+```
+
+### GitHub Actions Workflows
+
+Automated security and quality workflows run on every push and pull request:
+
+- **🔍 SCA (Software Composition Analysis)** - Multi-tool security scanning
+  - Dependency Review
+  - OWASP Dependency Check
+  - Secret Scanning (GitLeaks + TruffleHog)
+  - CodeQL SAST Analysis
+  - SBOM Generation
+  - OpenSSF Scorecard
+
+- **✏️ Lint Check** - Code quality validation
+  - JSON validation
+  - YAML validation
+  - Build verification
+
+### Security Configuration
+
+- `.gitleaks.toml` - GitLeaks configuration for secret detection
+- `.gitleaksignore` - False positive exclusions
+- `.github/dependency-review-config.yml` - Dependency security policies
+- `commitlint.config.js` - Commit message validation rules
+
+### References
+
+- [MoJ DevSecOps Hooks](https://github.com/ministryofjustice/devsecops-hooks)
+- [MoJ DevSecOps Actions](https://github.com/ministryofjustice/devsecops-actions)
+- [Conventional Commits](https://www.conventionalcommits.org/)
