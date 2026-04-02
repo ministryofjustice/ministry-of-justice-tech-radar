@@ -144,3 +144,52 @@ The radar's appearance and behavior can be customized in [config.json](config.js
 
 - [AOE Technology Radar](https://github.com/AOEpeople/aoe_technology_radar) - The underlying framework
 
+## Deployment
+
+The Tech Radar is deployed to GitHub Pages and automatically updates when changes are pushed to the `main` branch.
+
+### GitHub Pages Setup
+
+**Initial Setup:**
+
+1. Go to repository **Settings** → **Pages**
+2. Under **Build and deployment**, select **Source: GitHub Actions**
+3. Save changes
+
+The site will be available at: `https://ministryofjustice.github.io/ministry-of-justice-tech-radar`
+
+**Deployment Process:**
+
+- **Automatic**: Every push to `main` triggers deployment (2-3 minutes)
+- **Manual**: Go to **Actions** → **Deploy to GitHub Pages** → **Run workflow**
+
+### Monitoring & Rollback
+
+**Check deployment status:**
+- **Actions** tab shows workflow runs and deployment history
+- Visit the URL to verify content
+
+**Rollback if needed:**
+```bash
+git revert HEAD  # Revert problematic commit
+git push         # Auto-deploys previous version
+```
+
+### Troubleshooting
+
+**Build failures:**
+- Check Actions logs for errors
+- Test locally: `npm run build`
+- Verify Node.js version 22
+
+**404 errors:**
+- Confirm GitHub Pages source is "GitHub Actions" (not branch)
+- Check that `build/` directory is in deployment artifact
+
+**DNS issues:**
+```bash
+dig tech-radar.service.justice.gov.uk  # Should return CNAME
+```
+
+For deployment support, contact Developer Experience Team (#developer-experience-team on Slack).
+
