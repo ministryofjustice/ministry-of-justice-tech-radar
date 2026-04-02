@@ -26,6 +26,7 @@ Each technology is placed in one of four rings based on our recommendation:
 
 - Node.js (version 14 or higher)
 - npm
+- (Optional) Make - for simplified commands
 
 ### Installation
 
@@ -36,6 +37,13 @@ Each technology is placed in one of four rings based on our recommendation:
    ```
 
 2. Install dependencies:
+   
+   **Using Make (recommended):**
+   ```bash
+   make setup
+   ```
+   
+   **Or using npm directly:**
    ```bash
    npm install
    ```
@@ -44,11 +52,25 @@ Each technology is placed in one of four rings based on our recommendation:
 
 Start the local development server:
 
+**Using Make:**
+```bash
+make serve
+```
+
+**Or using npm:**
 ```bash
 npm run serve
 ```
 
 This will start a local server (typically at `http://localhost:3000`) where you can preview the tech radar.
+
+**Other useful Make commands:**
+```bash
+make help         # Show all available commands
+make build        # Build the tech radar
+make validate     # Validate configuration files
+make docker-run   # Run using Docker
+```
 
 ### Build
 
