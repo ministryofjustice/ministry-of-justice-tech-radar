@@ -80,11 +80,10 @@ jobs:
 
       - name: Install
         shell: bash
-        run: npm ci --ignore-scripts --omit=dev
+        run: npm ci --ignore-scripts
 
       - name: ⚡️ SCA
         uses: ministryofjustice/devsecops-actions/sca@9b261d91df9ab9ed80bb55a99fe2c1e2db8e1048 # v1.3.0
         with:
-          token: "${{ secrets.GITHUB_TOKEN }}" # Mandatory
-          dependency-review-config-file: "./.github/dependency-review-config.yml" # Optional
-          dependency-check-suppression-file: "dependency-check-suppression.xml" # Optional
+          token: "${{ secrets.GITHUB_TOKEN }}"
+          dependency-review-config-file: "./.github/dependency-review-config.yml"
