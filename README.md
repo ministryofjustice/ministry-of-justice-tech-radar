@@ -144,3 +144,126 @@ The radar's appearance and behavior can be customized in [config.json](config.js
 
 - [AOE Technology Radar](https://github.com/AOEpeople/aoe_technology_radar) - The underlying framework
 
+## Deployment
+
+The Tech Radar is deployed to GitHub Pages and automatically updates when changes are pushed to the `main` branch.
+
+### GitHub Pages Setup
+
+**Initial Setup:**
+
+1. Go to repository **Settings** → **Pages**
+2. Under **Build and deployment**, select **Source: GitHub Actions**
+3. Save changes
+
+The site will be available at: `https://ministryofjustice.github.io/ministry-of-justice-tech-radar`
+
+**Deployment Process:**
+
+- **Automatic**: Every push to `main` triggers deployment (2-3 minutes)
+- **Manual**: Go to **Actions** → **Deploy to GitHub Pages** → **Run workflow**
+
+### Monitoring & Rollback
+
+**Check deployment status:**
+- **Actions** tab shows workflow runs and deployment history
+- Visit the URL to verify content
+
+**Rollback if needed:**
+```bash
+git revert HEAD  # Revert problematic commit
+git push         # Auto-deploys previous version
+```
+
+### Troubleshooting
+
+**Build failures:**
+- Check Actions logs for errors
+- Test locally: `npm run build`
+- Verify Node.js version 22
+
+**404 errors:**
+- Confirm GitHub Pages source is "GitHub Actions" (not branch)
+- Check that `build/` directory is in deployment artifact
+
+**DNS issues:**
+```bash
+dig tech-radar.service.justice.gov.uk  # Should return CNAME
+```
+
+For deployment support, contact Developer Experience Team (#developer-experience-team on Slack).
+
+If your repository is private with no GitHub Advanced Security license, remove the `.github/workflows/dependency-review.yml` file.
+
+```bash
+npm run build
+```
+
+This creates an optimized build with strict validation in the `public/` directory.
+
+## Project Structure
+
+```
+.
+├── radar/              # Technology entries organized by release date
+│   └── YYYY-MM-DD/    # Release directories containing markdown files
+├── public/            # Built static files (generated)
+├── config.json        # Radar configuration (quadrants, colors, toggles)
+├── about.md          # Introduction and usage documentation
+├── custom.css        # Custom styling
+└── package.json      # Project dependencies and scripts
+```
+
+## Contributing
+
+### Adding or Updating Technology Entries
+
+1. Create a new branch:
+   ```bash
+   git checkout -b feature/add-technology-name
+   ```
+
+2. Navigate to the appropriate release directory in `radar/` or create a new one following the `YYYY-MM-DD` format.
+
+3. Create or update the technology's markdown file with the following structure:
+   ```markdown
+   ---
+   title: "Technology Name"
+   ring: adopt|trial|assess|hold
+   quadrant: languages-and-frameworks|methods-and-patterns|platforms-and-operations|tools
+   tags: [tag1, tag2]
+   ---
+
+   ## Description
+   Brief description of the technology...
+
+   ## Rationale
+   Why we recommend this technology...
+   ```
+
+4. Commit your changes and create a pull request.
+
+### Guidelines
+
+- Keep descriptions concise and focused on MoJ context
+- Include clear rationale for the recommendation
+- Use appropriate tags for discoverability
+- Follow existing naming conventions
+
+## Configuration
+
+The radar's appearance and behavior can be customized in [config.json](config.json):
+
+- Quadrant definitions and colors
+- UI toggles (search, chart, filters)
+- Branding (logo, colors)
+- Base paths and URLs
+
+## Built With
+
+- [AOE Technology Radar](https://github.com/AOEpeople/aoe_technology_radar) - The underlying framework
+
+- [MoJ DevSecOps Hooks](https://github.com/ministryofjustice/devsecops-hooks)
+- [MoJ DevSecOps Actions](https://github.com/ministryofjustice/devsecops-actions)
+- [Conventional Commits](https://www.conventionalcommits.org/)
+
