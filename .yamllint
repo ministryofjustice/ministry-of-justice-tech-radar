@@ -1,0 +1,22 @@
+---
+# yamllint configuration for GitHub Actions workflows
+# More relaxed rules suitable for CI/CD workflow files
+
+extends: default
+
+rules:
+  line-length:
+    max: 120  # GitHub Actions often have long lines
+    level: warning
+  
+  comments:
+    min-spaces-from-content: 1  # Allow single space before comments
+  
+  truthy:
+    allowed-values: ['true', 'false', 'on', 'off']  # Allow on/off for GitHub Actions
+  
+  document-start: disable  # Don't require --- at start
+  
+  indentation:
+    spaces: 2
+    indent-sequences: true
