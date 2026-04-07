@@ -131,6 +131,12 @@ This creates an optimized build with strict validation in the `public/` director
 - Use appropriate tags for discoverability
 - Follow existing naming conventions
 
+### Source of Truth
+
+The source of truth for this radar configuration is [ministryofjustice/octo-access](https://github.com/ministryofjustice/octo-access).
+
+If you make UI or configuration changes in this repository, you must backport the same changes to `octo-access` to avoid drift between repositories.
+
 ## Configuration
 
 The radar's appearance and behavior can be customized in [config.json](config.json):
@@ -156,7 +162,7 @@ The Tech Radar is deployed to GitHub Pages and automatically updates when change
 2. Under **Build and deployment**, select **Source: GitHub Actions**
 3. Save changes
 
-The site will be available at: `https://ministryofjustice.github.io/ministry-of-justice-tech-radar`
+The site will be available at: `https://tech-radar.justice.gov.uk`
 
 **Deployment Process:**
 
@@ -188,7 +194,7 @@ git push         # Auto-deploys previous version
 
 **DNS issues:**
 ```bash
-dig tech-radar.service.justice.gov.uk  # Should return CNAME
+dig tech-radar.justice.gov.uk  # Should return CNAME
 ```
 
 For deployment support, contact Developer Experience Team (#developer-experience-team on Slack).

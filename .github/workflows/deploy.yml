@@ -7,7 +7,7 @@
 #   - push to main: Automatic deployment on code changes
 #   - workflow_dispatch: Manual trigger when needed
 #
-# Target: tech-radar.service.justice.gov.uk
+# Target: tech-radar.justice.gov.uk
 
 name: Deploy to GitHub Pages 
 run-name: Deploy Tech Radar to GitHub Pages
@@ -43,6 +43,9 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: npm
+      
+      - name: SLSA supply chain protection
+        uses: ministryofjustice/devsecops-actions/sca/slsa@4cd163be7859cd130800d6719d925318826038ea
 
       - name: Install Dependencies
         run: npm ci
