@@ -7,7 +7,7 @@
 #   - push to main: Automatic deployment on code changes
 #   - workflow_dispatch: Manual trigger when needed
 #
-# Target: tech-radar.service.justice.gov.uk
+# Target: tech-radar.justice.gov.uk
 
 name: Deploy to GitHub Pages 
 run-name: Deploy Tech Radar to GitHub Pages
