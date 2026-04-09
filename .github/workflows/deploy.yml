@@ -7,6 +7,9 @@
 #   - push to main: Automatic deployment on code changes
 #   - workflow_dispatch: Manual trigger when needed
 #
+# Required Variables:
+#   - NODE_VERSION: Node.js version for the runtime environment
+#
 # Target: tech-radar.service.justice.gov.uk
 
 name: Deploy to GitHub Pages 
@@ -25,9 +28,6 @@ concurrency:
   group: github-pages
   cancel-in-progress: false
 
-env:
-  NODE_VERSION: '22'
-
 jobs:
   build:
     name: Build Tech Radar
@@ -41,7 +41,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@39370e3970a6d050c480ffad4ff0ed4d3fdee5af # v4.1.0
         with:
-          node-version: ${{ env.NODE_VERSION }}
+          node-version: ${{ vars.NODE_VERSION }}
           cache: npm
 
       - name: Install Dependencies

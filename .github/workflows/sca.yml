@@ -16,6 +16,10 @@
 #   - issues: write - Required for creating security advisories
 #   - security-events: write - Required for uploading security scan results
 #   - actions: read - Required for reading workflow run data
+#
+# Required Variables:
+#   - TIMEZONE: Repository variable defining the timezone for operations
+#   - NODE_VERSION: Node.js version for the runtime environment
 
 name: SCA ⚡️
 run-name: Software Composition Analysis ⚡️
@@ -36,7 +40,7 @@ permissions: {}
 
 env:
   environment: base
-  timezone: ${{ vars.TIMEZONE || 'UTC' }}
+  timezone: ${{ vars.TIMEZONE }}
 
 jobs:
   setup:
@@ -73,7 +77,7 @@ jobs:
       - name: Node
         uses: actions/setup-node@6044e13b5dc448c55e2357c09f80417699197238 # v6.1.0
         with:
-          node-version: ${{ vars.NODE_VERSION || '22' }}
+          node-version: ${{ vars.NODE_VERSION }}
 
       - name: SLSA supply chain protection
         uses: ministryofjustice/devsecops-actions/sca/slsa@4cd163be7859cd130800d6719d925318826038ea
