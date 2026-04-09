@@ -1,7 +1,7 @@
 {
-  "basePath": "/ministry-of-justice-tech-radar",
-  "baseUrl": "https://ministryofjustice.github.io/ministry-of-justice-tech-radar",
-  "editUrl": "https://github.dev/AOEpeople/techradar/blob/main/radar/{release}/{id}.md",
+  "basePath": "",
+  "baseUrl": "https://tech-radar.justice.gov.uk",
+  "editUrl": "https://github.dev/ministryofjustice/ministry-of-justice-tech-radar/blob/main/radar/{release}/{id}.md",
   "logoFile": "/Ministry_of_Justice_logo_(United_Kingdom).svg.png",
   "jsFile": "",
   "toggles": {
