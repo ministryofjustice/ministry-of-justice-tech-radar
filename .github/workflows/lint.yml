@@ -44,7 +44,7 @@ permissions: {}
 
 env:
   environment: base
-  timezone: ${{ vars.TIMEZONE || 'UTC' }}
+  timezone: ${{ vars.TIMEZONE }}
 
 jobs:
   # 1. Setup infrastructure
@@ -79,7 +79,7 @@ jobs:
       - name: Node
         uses: actions/setup-node@6044e13b5dc448c55e2357c09f80417699197238 # v6.1.0
         with:
-          node-version: ${{ vars.NODE_VERSION || '22' }}
+          node-version: ${{ vars.NODE_VERSION }}
 
       - name: SLSA supply chain protection
         uses: ministryofjustice/devsecops-actions/sca/slsa@4cd163be7859cd130800d6719d925318826038ea
