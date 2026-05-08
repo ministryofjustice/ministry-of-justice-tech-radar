@@ -2,7 +2,6 @@
 title: "Trivy"
 ring: reduce
 quadrant: tools
-featured: false
 tags:
   - security-scanning
   - "@cica"
