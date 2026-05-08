@@ -32,6 +32,11 @@
 }
 
 /* ===== Item Detail Pill Styling detail page ===== */
-[class*="Badge_colored"] {
+[class*="Badge_colored"]:not([class*="Badge_selectable"]) {
   color: #ffffff !important;
+}
+
+/* ===== Hide radar version number from heading ===== */
+h1 > span[style*="nowrap"] {
+  display: none;
 }
