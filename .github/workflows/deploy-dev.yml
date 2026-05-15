@@ -1,0 +1,91 @@
+# Deploys every commit on main to a GitHub Pages preview (dev environment).
+# Check the deployment URL in the Actions run summary to validate before releasing to prod.
+# For a stable dev subdomain see the DNS setup section in README.
+
+name: Deploy to Dev
+run-name: Deploy Tech Radar to Dev
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: deploy-dev
+  # Unlike prod, it's fine to cancel a dev deployment mid-flight if a
+  # newer commit arrives — we only care about the latest state.
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Build Tech Radar (Dev)
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+
+      - name: Setup Node.js
+        uses: actions/setup-node@39370e3970a6d050c480ffad4ff0ed4d3fdee5af # v4.1.0
+        with:
+          # NODE_VERSION is set as a repository variable so it can be updated
+          # in one place without touching workflow files.
+          node-version: ${{ vars.NODE_VERSION }}
+          cache: npm
+
+      # Verifies the integrity of the dependency graph before we build.
+      # Required by MoJ DevSecOps standards.
+      - name: SLSA supply chain protection
+        uses: ministryofjustice/devsecops-actions/sca/slsa@4cd163be7859cd130800d6719d925318826038ea
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Build (Dev)
+        run: npm run build
+        env:
+          # If DEV_BASE_URL is set (e.g. https://dev.tech-radar.justice.gov.uk),
+          # internal links resolve correctly under that subdomain.
+          # Falls back to empty string, which works fine for the GitHub preview URL.
+          TECH_RADAR_BASE_URL: ${{ vars.DEV_BASE_URL || '' }}
+
+      # The public/CNAME file maps the GitHub Pages site to the production domain.
+      # We remove it here so the dev preview doesn't hijack tech-radar.justice.gov.uk.
+      - name: Remove production CNAME
+        run: rm -f build/CNAME
+
+      - name: Setup Pages
+        uses: actions/configure-pages@983d7736d9b0ae728b81ab479565c72886d7745b # v5.0.0
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa # v3.0.1
+        with:
+          path: build
+
+  deploy:
+    name: Deploy to Dev (GitHub Pages preview)
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      # id-token is required for OIDC-based GitHub Pages deployment.
+      id-token: write
+    environment:
+      name: dev
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages (Dev)
+        id: deployment
+        uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e # v4.0.5
+        with:
+          # preview: true creates an isolated deployment that coexists with
+          # production rather than replacing it.
+          preview: true
+
+      - name: Done
+        run: echo "Dev preview deployed to ${{ steps.deployment.outputs.page_url }}"

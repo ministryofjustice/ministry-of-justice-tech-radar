@@ -1,7 +1,7 @@
 # Makefile for Ministry of Justice Tech Radar
 # Makes local development and deployment easier
 
-.PHONY: help install build serve clean docker-build docker-run docker-stop test validate
+.PHONY: help install build serve clean docker-build docker-run docker-stop test validate deploy-prod
 
 # Default target - show help
 help:
@@ -20,6 +20,10 @@ help:
 	@echo "  make test          - Run all checks (validate + build)"
 	@echo ""
 	@echo "  make setup         - First-time setup (install + validate)"
+	@echo ""
+	@echo "Deployment:"
+	@echo "  Dev deploys automatically on every push to main."
+	@echo "  make deploy-prod   - Trigger a production deployment via GitHub Actions"
 
 # Install dependencies
 install:
@@ -88,3 +92,11 @@ setup: install validate
 	@echo "  make build    - Build the tech radar"
 	@echo "  make serve    - Run locally at http://localhost:3000"
 	@echo "  make help     - Show all available commands"
+
+# Trigger a production deployment via GitHub Actions (manual gate)
+# Requires the GitHub CLI (gh) to be installed and authenticated.
+deploy-prod:
+	@echo "Triggering production deployment..."
+	gh workflow run deploy-prod.yml
+	@echo "✅ Production deployment triggered."
+	@echo "Monitor progress at: https://github.com/ministryofjustice/ministry-of-justice-tech-radar/actions"
