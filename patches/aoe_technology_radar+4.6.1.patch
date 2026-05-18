@@ -1,0 +1,28 @@
+diff --git a/node_modules/aoe_technology_radar/src/components/Layout/Layout.tsx b/node_modules/aoe_technology_radar/src/components/Layout/Layout.tsx
+index 8c1528b..215c037 100644
+--- a/node_modules/aoe_technology_radar/src/components/Layout/Layout.tsx
++++ b/node_modules/aoe_technology_radar/src/components/Layout/Layout.tsx
+@@ -1,4 +1,3 @@
+-import { Roboto } from "next/font/google";
+ import { FC, ReactNode } from "react";
+ 
+ import styles from "./Layout.module.css";
+@@ -8,7 +7,8 @@ import { Logo } from "@/components/Logo/Logo";
+ import { Navigation } from "@/components/Navigation/Navigation";
+ import { cn } from "@/lib/utils";
+ 
+-const font = Roboto({ weight: ["400", "700"], subsets: ["latin"] });
++// Roboto is loaded via CSS @import in custom.css to avoid a build-time
++// network request to Google Fonts, which fails in restricted environments.
+ 
+ export type LayoutClass = "default" | "full";
+ 
+@@ -24,7 +24,7 @@ export const Layout: FC<LayoutProps> = ({
+   return (
+     <div
+       id="layout"
+-      className={cn(styles.layout, font.className, styles[layoutClass])}
++      className={cn(styles.layout, styles[layoutClass])}
+     >
+       <header className={cn(styles.container, styles.header)}>
+         <Logo />
