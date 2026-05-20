@@ -112,7 +112,11 @@ jobs:
                     "value": "<https://github.com/${{ github.repository }}/commit/${{ github.sha }}|${{ github.sha }}>",
                     "short": true
                   },
-                  {"title": "URL", "value": "<https://tech-radar.justice.gov.uk|tech-radar.justice.gov.uk>", "short": false}
+                  {
+                    "title": "URL",
+                    "value": "<https://tech-radar.justice.gov.uk|tech-radar.justice.gov.uk>",
+                    "short": false
+                  }
                 ]
               }]
             }'
@@ -133,7 +137,11 @@ jobs:
                     "value": "<https://github.com/${{ github.repository }}/commit/${{ github.sha }}|${{ github.sha }}>",
                     "short": true
                   },
-                  {"title": "Workflow run", "value": "<https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}|View logs>", "short": false}
+                  {
+                    "title": "Workflow run",
+                    "value": "<https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}|View logs>",
+                    "short": false
+                  }
                 ]
               }]
             }'
