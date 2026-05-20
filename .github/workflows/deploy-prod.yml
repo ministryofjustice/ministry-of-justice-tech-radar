@@ -139,7 +139,7 @@ jobs:
                   },
                   {
                     "title": "Workflow run",
-                    "value": "<https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}|View logs>",
+                    "value":"<https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}|View logs>",
                     "short": false
                   }
                 ]
