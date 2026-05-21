@@ -107,8 +107,16 @@ jobs:
                 "color": "good",
                 "fields": [
                   {"title": "Deployed by", "value": "${{ github.actor }}", "short": true},
-                  {"title": "Commit", "value": "<https://github.com/${{ github.repository }}/commit/${{ github.sha }}|${{ github.sha }}}", "short": true},
-                  {"title": "URL", "value": "<https://tech-radar.justice.gov.uk|tech-radar.justice.gov.uk>", "short": false}
+                  {
+                    "title": "Commit",
+                    "value": "<https://github.com/${{ github.repository }}/commit/${{ github.sha }}|${{ github.sha }}>",
+                    "short": true
+                  },
+                  {
+                    "title": "URL",
+                    "value": "<https://tech-radar.justice.gov.uk|tech-radar.justice.gov.uk>",
+                    "short": false
+                  }
                 ]
               }]
             }'
@@ -124,8 +132,16 @@ jobs:
                 "color": "danger",
                 "fields": [
                   {"title": "Triggered by", "value": "${{ github.actor }}", "short": true},
-                  {"title": "Commit", "value": "<https://github.com/${{ github.repository }}/commit/${{ github.sha }}|${{ github.sha }}}", "short": true},
-                  {"title": "Workflow run", "value": "<https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}|View logs>", "short": false}
+                  {
+                    "title": "Commit",
+                    "value": "<https://github.com/${{ github.repository }}/commit/${{ github.sha }}|${{ github.sha }}>",
+                    "short": true
+                  },
+                  {
+                    "title": "Workflow run",
+                    "value":"<https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}|View logs>",
+                    "short": false
+                  }
                 ]
               }]
             }'
