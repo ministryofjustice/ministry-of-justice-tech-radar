@@ -150,11 +150,31 @@ The radar's appearance and behavior can be customized in [config.json](config.js
 
 - [AOE Technology Radar](https://github.com/AOEpeople/aoe_technology_radar) - The underlying framework
 
+## Environments
+
+| Environment | Branch    | URL                                   | Deployment trigger         |
+|-------------|-----------|---------------------------------------|----------------------------|
+| Production  | `main`    | https://tech-radar.justice.gov.uk     | Manual (`workflow_dispatch`) |
+| Development | `main`    | GitHub Pages preview URL (see below)  | Push to `main`             |
+
+### Branch Strategy
+
+```
+feature/*  ──── merged to ──►  main  ──► dev preview auto-deploy
+                                     └──► prod deploy (manual trigger)
+```
+
+- Work on feature branches (`feature/your-change`)
+- Merge to `main` to deploy and validate in the dev preview environment
+- Trigger production deployment manually when ready
+
+---
+
 ## Deployment
 
-The Tech Radar is deployed to GitHub Pages and automatically updates when changes are pushed to the `main` branch.
+### Production
 
-### GitHub Pages Setup
+The Tech Radar is deployed to GitHub Pages from `main` using a manual production workflow.
 
 **Initial Setup:**
 
@@ -162,23 +182,95 @@ The Tech Radar is deployed to GitHub Pages and automatically updates when change
 2. Under **Build and deployment**, select **Source: GitHub Actions**
 3. Save changes
 
-The site will be available at: `https://tech-radar.justice.gov.uk`
+The production site is available at: `https://tech-radar.justice.gov.uk`
 
 **Deployment Process:**
 
-- **Automatic**: Every push to `main` triggers deployment (2-3 minutes)
-- **Manual**: Go to **Actions** → **Deploy to GitHub Pages** → **Run workflow**
+- **Manual**: Run [Deploy to GitHub Pages](.github/workflows/deploy-prod.yml) from the **Actions** tab (must be run from `main`)
+- **CLI option**: `make deploy-prod`
+
+---
+
+### Development Environment
+
+The development environment deploys from `main` using GitHub Pages preview deployments. It is completely isolated from production — it does not use the production CNAME and cannot affect `tech-radar.justice.gov.uk`.
+
+**Deployment Process:**
+
+- **Automatic**: Every push to `main` triggers [Deploy to Dev](.github/workflows/deploy-dev.yml)
+- **Manual**: Go to **Actions** → **Deploy to Dev** → **Run workflow**
+
+The live dev URL is shown in the workflow run summary under the `deploy` job and in the repository's **Deployments** panel (environment: `dev`).
+
+---
+
+### Dev DNS Setup
+
+To expose the dev environment at a stable custom subdomain (`dev.tech-radar.justice.gov.uk`) instead of the GitHub preview URL, follow these steps:
+
+#### 1. Configure the GitHub Pages environment
+
+In repository **Settings** → **Environments** → `dev`:
+
+- Enable **Required reviewers** if gated approvals are needed for dev
+- Set **Deployment branches**: `main` only
+
+#### 2. Add a GitHub repository variable for the dev base URL
+
+In repository **Settings** → **Secrets and variables** → **Actions** → **Variables**:
+
+| Name            | Value                                     |
+|-----------------|-------------------------------------------|
+| `DEV_BASE_URL`  | `https://dev.tech-radar.justice.gov.uk`   |
+
+This overrides the base URL in the dev build so all internal links resolve correctly under the subdomain.
+
+#### 3. Create a DNS record
+
+Add the following DNS record via the MoJ DNS management process (raise a request with the Operations Engineering team or update the relevant DNS zone file):
+
+```
+dev.tech-radar.justice.gov.uk  CNAME  ministryofjustice.github.io
+```
+
+> **Note:** GitHub Pages only supports one CNAME per repository for the production custom domain. The dev subdomain is handled separately through GitHub's preview deployment feature, which serves at a unique URL. For a stable `dev.*` subdomain, the team managing `justice.gov.uk` DNS must add the CNAME above.
+
+#### 4. Add a `dev` CNAME file to the build (optional stable subdomain)
+
+If you want the dev environment to consistently serve at `dev.tech-radar.justice.gov.uk`, remove the `rm -f build/CNAME` step in [deploy-dev.yml](.github/workflows/deploy-dev.yml) and instead add a `public/CNAME-dev` file with the content:
+
+```
+dev.tech-radar.justice.gov.uk
+```
+
+Then update the workflow build step to copy it:
+
+```yaml
+- name: Set dev CNAME
+  run: cp public/CNAME-dev build/CNAME
+```
+
+> This requires GitHub Pages to be configured to allow the custom domain on the `dev` environment. This is an advanced setup — the simpler approach is to use the GitHub preview URL for day-to-day dev testing.
+
+---
 
 ### Monitoring & Rollback
 
 **Check deployment status:**
 - **Actions** tab shows workflow runs and deployment history
-- Visit the URL to verify content
+- **Deployments** panel (right sidebar of the repo) shows both `github-pages` (prod) and `dev` environments
 
-**Rollback if needed:**
+**Rollback production if needed:**
 ```bash
-git revert HEAD  # Revert problematic commit
-git push         # Auto-deploys previous version
+git revert HEAD  # Revert the problematic commit on main
+git push         # Push the revert commit to main
+make deploy-prod # Trigger production deployment
+```
+
+**Rollback dev:**
+```bash
+git revert HEAD  # On the main branch
+git push origin main
 ```
 
 ### Troubleshooting
@@ -186,15 +278,19 @@ git push         # Auto-deploys previous version
 **Build failures:**
 - Check Actions logs for errors
 - Test locally: `npm run build`
-- Verify Node.js version 22
+- Verify Node.js version matches `NODE_VERSION` repository variable
 
 **404 errors:**
-- Confirm GitHub Pages source is "GitHub Actions" (not branch)
-- Check that `build/` directory is in deployment artifact
+- Confirm GitHub Pages source is "GitHub Actions" (not branch) in repo Settings
+- Check that `build/` directory is present in the deployment artifact
 
-**DNS issues:**
+**Dev URL not working:**
+- Check the `deploy` job summary in the Actions run for the preview URL
+- Verify DNS propagation: `dig dev.tech-radar.justice.gov.uk`
+
+**DNS issues (production):**
 ```bash
-dig tech-radar.justice.gov.uk  # Should return CNAME
+dig tech-radar.justice.gov.uk  # Should return CNAME to ministryofjustice.github.io
 ```
 
 For deployment support, contact Developer Experience Team (#developer-experience-team on Slack).

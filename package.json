@@ -8,5 +8,8 @@
   },
   "dependencies": {
     "aoe_technology_radar": "^4"
+  },
+  "devDependencies": {
+    "patch-package": "^8.0.1"
   }
 }

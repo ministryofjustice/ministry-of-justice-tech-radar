@@ -1,3 +1,12 @@
+/* Load Roboto via Google Fonts CDN at browser runtime.
+   This avoids a build-time network request that fails in restricted environments.
+   Falls back to system-ui if the CDN is unreachable. */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+#layout {
+  font-family: "Roboto", system-ui, -apple-system, sans-serif;
+}
+
 /* GOV.UK Design System Styling for Tech Radar */
 /* Based on https://design-system.service.gov.uk/styles/colour/ */
 
@@ -32,6 +41,11 @@
 }
 
 /* ===== Item Detail Pill Styling detail page ===== */
-[class*="Badge_colored"] {
+[class*="Badge_colored"]:not([class*="Badge_selectable"]) {
   color: #ffffff !important;
+}
+
+/* ===== Hide radar version number from heading ===== */
+h1 > span[style*="nowrap"] {
+  display: none;
 }
