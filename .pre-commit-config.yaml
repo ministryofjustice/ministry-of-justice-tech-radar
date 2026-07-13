@@ -1,0 +1,53 @@
+# Pre-commit hooks configuration for Ministry of Justice Tech Radar
+# 
+# This file configures automated security and quality checks that run before commits.
+# Install: prek install (or pre-commit install)
+# Run manually: prek run --all-files
+#
+# For more information:
+# - https://github.com/ministryofjustice/devsecops-hooks
+# - https://pre-commit.com/
+
+repos:
+  # MoJ DevSecOps Hooks - Secret scanning with GitLeaks
+  - repo: https://github.com/ministryofjustice/devsecops-hooks
+    rev: v1.6.0
+    hooks:
+      - id: baseline
+        name: 🔐 Secret Scanner (GitLeaks)
+        description: Scans for hardcoded secrets and credentials
+        stages: [commit]
+
+  # Trailing whitespace removal
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: trailing-whitespace
+        name: ✂️ Remove Trailing Whitespace
+        args: [--markdown-linebreak-ext=md]
+      
+      - id: end-of-file-fixer
+        name: 📝 Fix End of Files
+        description: Ensures files end with a newline
+      
+      - id: check-yaml
+        name: ✅ Check YAML Syntax
+        description: Validates YAML file syntax
+        exclude: ^(\.github/workflows/|config\.json)
+      
+      - id: check-json
+        name: ✅ Check JSON Syntax
+        description: Validates JSON file syntax
+      
+      - id: check-added-large-files
+        name: 📦 Check Large Files
+        description: Prevents adding files larger than 500KB
+        args: ['--maxkb=500']
+      
+      - id: check-merge-conflict
+        name: 🔀 Check Merge Conflicts
+        description: Checks for unresolved merge conflict markers
+      
+      - id: detect-private-key
+        name: 🔑 Detect Private Keys
+        description: Detects presence of private keys

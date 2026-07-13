@@ -1,0 +1,25 @@
+# Dependencies
+node_modules/
+
+# Build output
+build/
+.next/
+.techradar/
+
+# Git
+.git/
+.gitignore
+
+# IDE
+.idea/
+.vscode/
+
+# Docs
+*.md
+!about.md
+
+# GitHub
+.github/
+
+# Environment
+.env*

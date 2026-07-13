@@ -8,3 +8,12 @@ env/
 *.code-workspace
 *.sha256
 terraform.tfstate
+
+node_modules
+
+# Build output
+build/
+out/
+dist/
+.next/
+.techradar/

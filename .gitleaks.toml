@@ -1,0 +1,19 @@
+# GitLeaks Configuration
+# Custom configuration for detecting secrets in the Ministry of Justice Tech Radar
+# 
+# For more information on configuration:
+# https://github.com/gitleaks/gitleaks#configuration
+
+title = "MoJ Tech Radar GitLeaks Configuration"
+
+# Global allowlists
+[allowlist]
+description = "Global allowlist for common false positives"
+paths = [
+  '''node_modules/''',
+  '''package-lock\.json''',
+  '''\.git/''',
+]
+
+# Extend default rules with any custom patterns if needed
+# See: https://github.com/gitleaks/gitleaks#configuration
