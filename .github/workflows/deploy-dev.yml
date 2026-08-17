@@ -41,7 +41,7 @@ jobs:
       # Verifies the integrity of the dependency graph before we build.
       # Required by MoJ DevSecOps standards.
       - name: SLSA supply chain protection
-        uses: ministryofjustice/devsecops-actions/sca/slsa@4cd163be7859cd130800d6719d925318826038ea
+        uses: ministryofjustice/devsecops-actions/sca/slsa@9ec6779d39e07ca69ecf17baf5208a4b0095c10b
 
       - name: Install Dependencies
         run: npm ci
