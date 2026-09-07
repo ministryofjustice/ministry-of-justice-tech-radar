@@ -1,54 +1,60 @@
+# To get started with Dependabot version updates, you'll need to specify which
+# package ecosystems to update and where the package manifests are located.
+# Please see the documentation for all configuration options:
+# https://docs.github.com/en/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file
+#
+# Ecosystems below are limited to the manifests that actually exist in this
+# repo (package.json, Dockerfile, .github/workflows) so every update is
+# tracked through a structured package manager rather than ad-hoc scripts.
+#
+# schedule.interval: https://docs.github.com/en/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file#scheduleinterval
+# groups: https://docs.github.com/en/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file#groups
+# cooldown: https://docs.github.com/en/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file#cooldown
+
 version: 2
 
 updates:
-  - package-ecosystem: "github-actions"
-    directory: "/"
-    schedule:
-      interval: "monthly"
-    cooldown:
-      default-days: 14
-    commit-message:
-      include: "scope"
-      prefix: ":dependabot: github-actions"
-    groups:
-      github-actions-minor-patch:
-        applies-to: version-updates
-        patterns:
-          - "*"
-        update-types:
-          - "minor"
-          - "patch"
   - package-ecosystem: "npm"
-    directory: "/"
-    schedule:
-      interval: "monthly"
-    cooldown:
-      default-days: 14
     commit-message:
       include: "scope"
       prefix: ":dependabot: npm"
-    groups:
-      npm-minor-patch:
-        applies-to: version-updates
-        patterns:
-          - "*"
-        update-types:
-          - "minor"
-          - "patch"
-  - package-ecosystem: "docker"
     directory: "/"
     schedule:
-      interval: "monthly"
+      interval: "daily"
     cooldown:
-      default-days: 14
+      # Wait 7 days after release before proposing routine updates.
+      default-days: 7
+    groups:
+      # Bundle all non-major bumps into one PR instead of one per package.
+      minor-and-patch:
+        update-types: ["minor", "patch"]
+
+  - package-ecosystem: "docker"
     commit-message:
       include: "scope"
       prefix: ":dependabot: docker"
+    directory: "/"
+    schedule:
+      interval: "daily"
+    cooldown:
+      # Wait 7 days after release before proposing routine updates.
+      default-days: 7
     groups:
-      docker-minor-patch:
-        applies-to: version-updates
-        patterns:
-          - "*"
-        update-types:
-          - "minor"
-          - "patch"
+      # Bundle all non-major bumps into one PR instead of one per package.
+      minor-and-patch:
+        update-types: ["minor", "patch"]
+
+  - package-ecosystem: "github-actions"
+    commit-message:
+      include: "scope"
+      prefix: ":dependabot: github-actions"
+    directory: "/"
+    schedule:
+      interval: "daily"
+    cooldown:
+      # Wait 7 days after release before proposing routine updates.
+      default-days: 7
+    groups:
+      # Bundle all non-major bumps into one PR instead of one per package.
+      minor-and-patch:
+        update-types: ["minor", "patch"]
