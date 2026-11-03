@@ -8,4 +8,4 @@ tags:
   - "@laa"
 ---
 
-HMPPS Forge is being trialled by LAA. Use the trial to assess its suitability for LAA teams and services before making a wider recommendation.
+HMPPS Forge is being trialled within LAA Digital and Probation. Use the trial to assess its suitability for those teams and services before making a wider recommendation.
