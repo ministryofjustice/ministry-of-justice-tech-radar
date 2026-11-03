@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "license": "MIT",
   "scripts": {
+    "postinstall": "patch-package",
     "build": "techradar build --strict",
     "serve": "techradar serve"
   },
