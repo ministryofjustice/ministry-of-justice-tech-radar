@@ -1,5 +1,5 @@
 ---
-title: "Entra"
+title: "Entra ID"
 ring: adopt
 quadrant: platforms-and-operations
 tags:

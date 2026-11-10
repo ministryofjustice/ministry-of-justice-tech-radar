@@ -1,0 +1,9 @@
+---
+title: "OpenTofu"
+ring: trial
+quadrant: languages-and-frameworks
+tags:
+  - languages
+---
+
+OpenTofu is an open-source Infrastructure as Code (IaC) tool that lets you define, provision, and manage cloud and on-premises infrastructure using human-readable configuration files.
