@@ -9,4 +9,4 @@ tags:
   - "@opg"
 ---
 
-Cypress: A JavaScript end-to-end testing framework; favored for its fast, reliable tests and developer-friendly experience.
+Cypress: A JavaScript end-to-end testing framework; favoured for its fast, reliable tests and developer-friendly experience.

@@ -8,4 +8,4 @@ tags:
   - "@cica"
 ---
 
-GitHub: A platform for version control and collaboration; used across the organization for hosting code, managing projects, and code review.
+GitHub: A platform for version control and collaboration; used across the organisation for hosting code, managing projects, and code review.

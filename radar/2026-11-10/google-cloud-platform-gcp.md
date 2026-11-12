@@ -7,4 +7,4 @@ tags:
   - "@moj"
 ---
 
-GCP: Google Cloud Platform; utilized by OCTO for specific workloads requiring Google's native cloud and data analytics capabilities.
+GCP: Google Cloud Platform; utilised by OCTO for specific workloads requiring Google's native cloud and data analytics capabilities.
