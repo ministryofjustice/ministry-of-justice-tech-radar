@@ -1,6 +1,6 @@
 ---
 title: "Hashicorp Configuration Language (HCL)"
-ring: assess
+ring: adopt
 quadrant: languages-and-frameworks
 tags:
   - languages
