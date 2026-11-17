@@ -7,4 +7,4 @@ tags:
   - "@moj"
 ---
 
-Cloud‑hosted, containerized developer environments tightly integrated with GitHub.
+Cloud‑hosted, containerised developer environments tightly integrated with GitHub.

@@ -7,4 +7,4 @@ tags:
   - "@moj"
 ---
 
-A unified enterprise cloud-native application protection platform (CNAPP) and cloud detection and response (CDR) solution
+A unified enterprise cloud-native application protection platform (CNAPP) and cloud detection and response (CDR) solution.

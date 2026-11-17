@@ -5,7 +5,6 @@ quadrant: tools
 tags:
   - appsec-and-compliance
   - "@opg"
-  - "@opg"
   - "@moj"
 ---
 

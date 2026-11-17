@@ -7,4 +7,4 @@ tags:
   - "@moj"
 ---
 
-ChatGPT is a conversational generative artificial intelligence platform
+ChatGPT is a conversational generative artificial intelligence platform.

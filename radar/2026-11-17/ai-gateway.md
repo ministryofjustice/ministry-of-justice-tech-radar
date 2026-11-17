@@ -7,4 +7,4 @@ tags:
   - "@moj"
 ---
 
-Specialized middleware layer that sits between your applications and artificial intelligence services (such as LLMs, image models, and agent tools)
+Specialised middleware layer that sits between your applications and artificial intelligence services (such as LLMs, image models, and agent tools).

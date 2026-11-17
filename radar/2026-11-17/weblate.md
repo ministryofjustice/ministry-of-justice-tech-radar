@@ -7,4 +7,4 @@ tags:
   - "@moj"
 ---
 
-Web‑based continuous localization platform for collaboratively translating software.
+Web‑based continuous localisation platform for collaboratively translating software.

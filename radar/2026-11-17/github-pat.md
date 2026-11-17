@@ -7,4 +7,4 @@ tags:
   - "@moj"
 ---
 
-A GitHub Personal Access Token is a secret string used to authenticate a person or automation to GitHub resources
+A GitHub Personal Access Token is a secret string used to authenticate a person or automation to GitHub resources.
